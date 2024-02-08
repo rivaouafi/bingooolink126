@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>internet satellet</title> 
+     <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="author" content="ridha ouafi">
+    
+    
+    <style>  
+    
+            * {
+  box-sizing: border-box;
+}
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+.header1 {
+ display: flex;
+ flex-wrap: wrap;
+  
+ font-size: 1em;
+ color: white;
+ background-color: green;
+ border: 1px solid springgreen;
+ padding: 2px;
+} 
+.header2 {
+ display: flex;
+ flex-wrap: wrap;
+ 
+  font-size:3em;
+  color: white;
+  
+ background-color: black;
+ border: 1px solid springgreen;
+ padding: 10px;
+}
+
+ .footer {  
+ display: flex;
+ flex-wrap: wrap; 
+justify-content: center;
+ background-color: black;
+ border: 2px solid springgreen;
+ padding: 10px;
+ color: white;
+ text-align: center;
+ font-size: 1em;
+ position: fixed;
+ bottom: 0;
+ width: 97%;
+ }
+ /* Six buttons with code link to some pages in this project */
+ .button-group {
+ display: flex;
+ flex-wrap: wrap;
+ justify-content: center;
+ align-items: center;
+ margin-top: 20px;
+ }
+ .button {
+ display: inline-block;
+ padding: 10px;
+ margin: 10px;
+ background-color: GREEN;
+ color: white;
+ border: 1px solid black;
+ border-radius: 5px;
+ font-size: 1.5em;
+ text-align: center;
+ text-decoration: none;
+ }
+
+ /* Fixed background */
+ body { 
+  
+   background-color: #FFFFFF;
+   background-image: url('orbit4.jpg');
+   background-attachment: fixed;
+   background-position: center center;
+   background-repeat: repeat;
+   background-size: 100% 100%;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 1.1875;
+   margin: 0;
+   padding: 0;
+
+ 
+ }
+    
+        #gameArea {
+            width: 1000px;
+            height: 500px;
+            background-color: transparent;
+            border: 1px solid SKYBLUE;
+			background-attachment: fixed;
+            background-position: center center;
+            background-repeat: repeat;
+            background-size: 100% 100%;
+			position: relative;
+			margin: 0;
+            padding: 0;
+			
+        }
+		
+		  #container {
+    width: 1000px;
+    height: 500px;
+    border: 0px solid black;
+    position: relative;
+    overflow: hidden;
+  }
+
+		
+		
+        #character {
+            width: 200px;
+            height: 200px;
+            background-image: url('satellet7.png');
+            position: absolute;
+            bottom: 0;
+            left: 0;
+			
+			
+			
+        }
+    
+	           #bar {
+    position: absolute;
+    left: 30px;
+    top: 80px;
+    width: 200px;
+    height: 100px;
+    background-image: url('bar1.png');
+}
+
+	  #ground {
+    width: 100px;
+    height: 3px;
+    background: transparent;
+    position: absolute;
+    left: 0px;
+    top: 500px;
+  }
+	
+     
+		.buttone {
+            width: 50px;
+            height: 50px;
+            background-color: springgreen;
+			 border: 2px solid red;
+			 border-radius: 30%;
+             padding: 6px;
+             margin: 6px;
+            display: inline-block;
+            text-align: center;
+			color: red;
+            line-height: 6px;
+            cursor: pointer;
+        }
+		
+   
+  
+		
+		
+
+         /* Flexible layout responsive design */
+
+ .header1 {
+ font-size: 0.5em;
+ padding: 2px;
+ }
+ /* Big red header with red border */
+ .header2 {
+ font-size: 4em;
+ padding: 2px;
+ }
+ /* Six buttons with code link to some pages in this project */
+ .button-group {
+ margin-top: 10px;
+ }
+ .button {
+ padding: 5px;
+ margin: 5px;
+ font-size: 1em;
+ }
+
+
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.column {
+  flex: 100%;
+
+  padding: 5px;
+}
+.column img { 
+
+  width: 100%;
+  height: auto;
+
+      }
+@media screen and (max-width: 200px) {
+  .column {
+  
+    width: 100%;
+  }
+   
+   
+} 
+        
+        
+    </style>
+</head>
+<body> 
+
+
+ 
+ <div class="button-group">
+ <a href="index.html" class="button">introduction</a>
+ <a href="index.html" class="button">index</a>
+ <a href="index.html" class="button">topics</a>
+ <a href="about.html" class="button">about</a>
+ <a href="https://linkmovies.netlify.app" class="button">blog</a>
+ <a href="https://www.facebook.com/toni.romanov.92" class="button">contact</a>
+  </DIV>
+  
+
+    <div class="row"> 
+	<div id="container"> 
+
+    <div id="gameArea"></div>
+              <div class="score">  </div>
+			  <div id="ground"></div>
+    <div id="bar"></div>
+        <div id="character">  </div>
+		
+		
+		</div>
+								    <!-- Audio elements for movement sounds -->
+    <audio id="shootSound" src="mov4.wav" type="audio/wav"></audio>
+    <audio id="movSound" src="mov4.wav" type="audio/wav"></audio>
+	<audio id="passSound" src="mov4.wav" type="audio/wav"></audio>
+	<audio id="pass1Sound" src="mov4.wav" type="audio/wav"></audio>
+    <audio id="loserSound" src="loser.wav" type="audio/wav"></audio>
+	<audio id="introSound" src="space.wav" type="audio/wav"></audio>
+    <audio id="hitSound" src="1.wav" type="audio/wav"></audio>
+		
+	 <script>
+    // Get the ball and container elements
+    var character = document.getElementById("character");
+    var container = document.getElementById("container");
+	var bar = document.getElementById("bar");
+     var score = 0;
+  
+	
+	  
+ const shootSound = document.getElementById('shootSound');
+const movSound = document.getElementById('movSound');
+const passSound = document.getElementById('passSound');
+const pass1movSound = document.getElementById('pass1Sound');
+const introSound = document.getElementById('introSound');
+const hitSound = document.getElementById('hitSound');
+
+ 
+  
+	
+	
+	
+    // Define some constants
+    var gravity = 0.6; // The acceleration of the ball due to gravity
+    var bounce = 0.6; // The fraction of the ball's velocity that is preserved after bouncing
+    var friction = 0.98; // The fraction of the ball's velocity that is preserved after moving horizontally
+    var speed = 1; // The speed of the ball when moved by arrow keys
+    // Initialize some variables
+    var vx = 0; // The horizontal velocity of the ball
+    var vy = 0; // The vertical velocity of the ball
+    var x = character.offsetLeft; // The horizontal position of the ball
+    var y = character.offsetTop; // The vertical position of the ball
+    var ground = container.offsetHeight - character.offsetHeight; // The y-coordinate of the ground
+    var right = container.offsetWidth - character.offsetWidth; // The x-coordinate of the right wall
+    // Define a function to update the ball's position and velocity
+    function update() {
+      // Apply gravity to the vertical velocity
+      vy += gravity;
+      // Apply friction to the horizontal velocity
+      vx *= friction;
+      // Update the position based on the velocity
+      x += vx;
+      y += vy;
+      // Check for collisions with the walls and the ground
+      if (x < 0) { // Left wall
+        x = 0;
+        vx = -vx * bounce;
+		character.style.backgroundImage = "url('satellet3.png')";
+		
+		   score += 1;
+            
+        
+
+            if (score == 20) {
+
+
+                window.location.href = "index+1.html";
+		 }	
+		
+		
+      }
+      if (x > right) { // Right wall
+        x = right;
+        vx = -vx * bounce;
+		character.style.backgroundImage = "url('satellet4.png')";
+		
+		 
+           score += 1;
+            
+        
+
+            if (score == 20) {
+
+
+                window.location.href = "index+1.html";
+		 }		
+
+      }
+      if (y > ground) { // Ground
+        y = ground;
+        vy = -vy * bounce;
+		introSound.play();
+
+              
+		
+		
+      }
+      // Set the position of the ball element
+      character.style.left = x + "px";
+      character.style.top = y + "px";
+      // Repeat the update function every 20 milliseconds
+      setTimeout(update, 19);
+    }
+    // Define a function to handle keydown events
+    function handleKeydown(event) {
+      // Check which arrow key was pressed
+      switch (event.keyCode) {
+        case 37: // Left arrow
+          vx -= speed;
+		  character.style.backgroundImage = "url('satellet7.png')";
+		  movSound.play();
+          break;
+        case 38: // Up arrow
+          vy -= speed;
+		  character.style.backgroundImage = "url('satellet6.png')";
+		  shootSound.play();
+          break;
+        case 39: // Right arrow
+          vx += speed;
+		  character.style.backgroundImage = "url('satellet6.png')";
+		  passSound.play();
+          break;
+        case 40: // Down arrow
+          vy += speed;
+		  character.style.backgroundImage = "url('satellet7.png')";
+		  pass1Sound.play();
+          break;
+      }
+    }
+    // Add an event listener for keydown events
+    document.addEventListener("keydown", handleKeydown);
+    // Start the update function
+    update();
+	
+	function update4() {
+        // Get the current position of the character
+        var x = parseInt(character.style.left);
+        var y = parseInt(character.style.top);
+        // Add the direction to the position
+        x += dx;
+        y += dy;
+        // Check the boundaries of the screen
+        if (x < 0) x = 0;
+        if (y < 0) y = 0;
+        if (x > window.innerWidth - character.offsetWidth) x = window.innerWidth - character.offsetWidth;
+        if (y > window.innerHeight - character.offsetHeight) y = window.innerHeight - character.offsetHeight;
+        // Set the new position of the character
+        character.style.left = x + "px";
+        character.style.top = y + "px";
+        // Check the collision with the bar
+        if (hitTest(character, bar)) {
+                // Change the image of the character
+				introSound.play();
+                window.location.href = "index+2.html";
+   	
+        }
+		
+        // Call the update function again after 10 milliseconds
+        setTimeout(update4, 10);
+}
+// Define a function to check the hit testing between two elements
+function hitTest(a, b) {
+        // Get the bounding rectangles of the elements
+        var aRect = a.getBoundingClientRect();
+        var bRect = b.getBoundingClientRect();
+        // Compare the positions and sizes of the elements
+        return !(aRect.right < bRect.left || aRect.left > bRect.right || aRect.bottom < bRect.top || aRect.top > bRect.bottom);
+}
+// Call the update function for the first time
+update4();
+
+
+	
+  </script>
+	
+	    
+  <script>
+    const image = document.getElementById("character");
+    let rotation = 0;
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        rotation -= 10;
+      } else if (event.key === "ArrowRight") {
+        rotation += 10;
+      }
+      image.style.transform = `translate(0%, 0%) rotate(${rotation}deg)`;
+    });
+  </script>
+	
+
+	
+
+
+    
+    
+    
+	</div>
+	
+	    <div class="buttone" id="up">up</div>
+    <div class="buttone" id="left">left</div>
+    <div class="buttone" id="right">right</div>
+    <div class="buttone" id="down">down</div>
+    <div class="buttone" id="fire">shoot</div>
+	 
+    
+     <script>
+	 
+
+
+        // Initialize character position
+        let characterX = 100;
+        let characterY = 460;
+		
+// Get the window width and height
+
+// Set the initial speed and direction
+
+
+        // Update character position based on button clicks
+        function moveCharacter(direction) {
+            switch (direction) {
+                case 'up':
+                    characterY -= 20;
+					movSound.play();
+                    break;
+                case 'down':
+                    characterY += 20;
+					shootSound.play();
+                    break;
+                case 'left':
+                    characterX -= 20;
+					passSound.play();
+					
+					 
+                 break;
+                   
+		
+                case 'right':
+                    characterX += 20;
+					pass1Sound.play();
+					
+					break;
+                    
+                case 'fire':
+                    // Implement bullet firing logic here
+                    console.log('Firing bullets!');
+					
+                 break;
+					
+            }
+            updateCharacterPosition();
+        }
+        // Update character display
+        function updateCharacterPosition() {
+            const character = document.getElementById('character');
+            character.style.left = characterX + 'px';
+            character.style.top = characterY + 'px';
+			const shootSound = document.getElementById('shootSound');
+const movSound = document.getElementById('movSound');
+const passSound = document.getElementById('passSound');
+const pass1movSound = document.getElementById('pass1Sound');
+const introSound = document.getElementById('introSound');
+const hitSound = document.getElementById('hitSound');
+			
+        }
+        // Event listeners for gamepad buttons
+        document.getElementById('up').addEventListener('click', () => moveCharacter('up'));
+        document.getElementById('down').addEventListener('click', () => moveCharacter('down'));
+        document.getElementById('left').addEventListener('click', () => moveCharacter('left'));
+        document.getElementById('right').addEventListener('click', () => moveCharacter('right'));
+        document.getElementById('fire').addEventListener('click', () => moveCharacter('fire'));
+		
+
+    </script>
+      
+
+         
+    
+</body>
+</html>

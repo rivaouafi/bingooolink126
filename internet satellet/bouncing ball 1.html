@@ -1,0 +1,103 @@
+<html>
+<head>
+<style>
+  #container {
+    width: 500px;
+    height: 300px;
+    border: 1px solid black;
+    position: relative;
+    overflow: hidden;
+  }
+  #ball {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: red;
+    position: absolute;
+    left: 225px;
+    top: 0px;
+  }
+  #ground {
+    width: 500px;
+    height: 50px;
+    background: green;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+  }
+</style>
+</head>
+<body>
+  <div id="container">
+    <div id="ball"></div>
+    <div id="ground"></div>
+  </div>
+  <script>
+    // Get the ball and container elements
+    var ball = document.getElementById("ball");
+    var container = document.getElementById("container");
+    // Define some constants
+    var gravity = 0.5; // The acceleration of the ball due to gravity
+    var bounce = 0.8; // The fraction of the ball's velocity that is preserved after bouncing
+    var friction = 0.98; // The fraction of the ball's velocity that is preserved after moving horizontally
+    var speed = 5; // The speed of the ball when moved by arrow keys
+    // Initialize some variables
+    var vx = 0; // The horizontal velocity of the ball
+    var vy = 0; // The vertical velocity of the ball
+    var x = ball.offsetLeft; // The horizontal position of the ball
+    var y = ball.offsetTop; // The vertical position of the ball
+    var ground = container.offsetHeight - ball.offsetHeight; // The y-coordinate of the ground
+    var right = container.offsetWidth - ball.offsetWidth; // The x-coordinate of the right wall
+    // Define a function to update the ball's position and velocity
+    function update() {
+      // Apply gravity to the vertical velocity
+      vy += gravity;
+      // Apply friction to the horizontal velocity
+      vx *= friction;
+      // Update the position based on the velocity
+      x += vx;
+      y += vy;
+      // Check for collisions with the walls and the ground
+      if (x < 0) { // Left wall
+        x = 0;
+        vx = -vx * bounce;
+      }
+      if (x > right) { // Right wall
+        x = right;
+        vx = -vx * bounce;
+      }
+      if (y > ground) { // Ground
+        y = ground;
+        vy = -vy * bounce;
+      }
+      // Set the position of the ball element
+      ball.style.left = x + "px";
+      ball.style.top = y + "px";
+      // Repeat the update function every 20 milliseconds
+      setTimeout(update, 20);
+    }
+    // Define a function to handle keydown events
+    function handleKeydown(event) {
+      // Check which arrow key was pressed
+      switch (event.keyCode) {
+        case 37: // Left arrow
+          vx -= speed;
+          break;
+        case 38: // Up arrow
+          vy -= speed;
+          break;
+        case 39: // Right arrow
+          vx += speed;
+          break;
+        case 40: // Down arrow
+          vy += speed;
+          break;
+      }
+    }
+    // Add an event listener for keydown events
+    document.addEventListener("keydown", handleKeydown);
+    // Start the update function
+    update();
+  </script>
+</body>
+</html>
